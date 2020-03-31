@@ -1,27 +1,34 @@
-from . import Ruler
-import sys
 from colorama import Fore, Style
+from ruler import Ruler, red_text
+import sys
 import numpy as np
-import pandas as pd
-DATASET = sys.argv[1]
 
-csvfile = pd.read_csv(DATASET) #en supposant que DATASET arrive au format CSV
+import argparse
 
-def traitement(df):
-    id = (df.columns)[0]
-    list = df[id].to_list()
-    l = len(list)
-    loop = 0
-    if l//2 == 1:
-        l = l-1
-    while loop < l:
-        res = Ruler(list[loop],list[loop+1])
-        res.compute()
-        distance = res.distance
-        top, bottom = res.report()
-        print(f"====== example # {loop//2+1} - distance = {distance}")
-        print(top)
-        print(bottom)
-        loop = loop + 2
+parser = argparse.ArgumentParser() #on récupère le fichier, cf primer
 
-traitement(DATASET)
+parser.add_argument("dataset", help="Couples de fragments", type=str)
+
+args = parser.parse_args()
+
+texte = args.dataset
+
+with open(texte, 'r') as fichier:
+    liste = []
+    swap = []
+    for ligne in fichier:
+        if len(ligne) != 0:
+            if len(swap) == 0:
+                swap.append(ligne)
+            else:
+                liste.append((swap[0], ligne))
+                swap = []
+
+for k in range(len(liste)):
+    ruler = Ruler(*liste[k])
+    ruler.compute()
+    d = ruler.distance
+    top, bottom = ruler.report()
+    print(f"====== example # {k} - distance = {d}")
+    print(top)
+    print(bottom)

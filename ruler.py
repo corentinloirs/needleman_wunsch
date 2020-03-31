@@ -1,7 +1,8 @@
-from colorama import Fore, Style
+from colorama import init, Fore, Style
 import numpy as np
 
 def red_text(text):
+    init(convert = True)
     return f"{Fore.RED}{text}{Style.RESET_ALL}"
 
 class Ruler:
@@ -40,7 +41,6 @@ class Ruler:
                 deuxieme_choix = self.differences[i-1,j] + d
                 troisieme_choix =  self.differences[i,j-1] + d
                 self.differences[i,j] = min (premier_choix, deuxieme_choix, troisieme_choix)
-        # print(self.differences)
 
         i = len(self.chaineA)
         j = len(self.chaineB)
@@ -53,10 +53,9 @@ class Ruler:
             score_left = self.differences [i,j-1]
 
 
-            sab = int(self.chaineA[i-1] != self.chaineB[j-1])
-            # print(score, score_diag, score_up, score_left, sab)
+            sab = int(self.chaineA[i-1] != self.chaineB[j-1]) #condition pour pas encombrer le code
 
-            if score == score_diag + sab :
+            if score == score_diag + sab : #on gère tout les cas de mouvement dans la matrice
                 if sab :
                     self.A.append(red_text(self.chaineA[i-1]))
                     self.B.append(red_text(self.chaineB[j-1]))
