@@ -1,6 +1,4 @@
-# needleman_wunsch
-
-Nota Bene:
+# Nota Bene:
 
 
 L'algorithme de huffmann que j'ai codé ne renvoie pas exactement la même chose pour l'exemple proposé: j'ai un conflit de notation
